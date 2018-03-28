@@ -1,0 +1,2 @@
+include tavern_flask/tests.schema.yaml
+include LICENSE
