@@ -2,7 +2,7 @@
 
 test_name: Make sure jwt returned has the expected aud value
 
-flask:
+flask: &flask_spec
   app:
     location: server:app
 
@@ -44,6 +44,8 @@ stages:
 ---
 
 test_name: Make sure server doubles number properly
+
+flask: *flask_spec
 
 includes:
   - !include common.yaml
@@ -125,6 +127,8 @@ stages:
 ---
 
 test_name: Check trying to get a number that we didnt post before returns a 404
+
+flask: *flask_spec
 
 includes:
   - !include common.yaml

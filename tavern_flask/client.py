@@ -1,4 +1,5 @@
 import logging
+import json as jsonlib
 
 try:
     from urllib.parse import urlparse
@@ -53,5 +54,13 @@ class FlaskTestSession:
         parsed = urlparse(url)
         route = parsed.path
 
+        body = None
+
+        if data:
+            raise NotImplementedError
+
+        if json:
+            body = jsonlib.dumps(json)
+
         meth = getattr(self._test_client, method.lower())
-        return meth(route, headers=headers)
+        return meth(route, headers=headers, data=body, query_string=params)
