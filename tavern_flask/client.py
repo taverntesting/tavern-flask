@@ -2,9 +2,10 @@ import logging
 import json as jsonlib
 
 try:
-    from urllib.parse import urlparse
+    from urllib.parse import urlparse, urlencode
 except ImportError:
     from urlparse import urlparse
+    from urllib import urlencode
 
 from future.utils import raise_from
 
@@ -57,7 +58,7 @@ class FlaskTestSession:
         body = None
 
         if data:
-            raise NotImplementedError
+            body = urlencode(data)
 
         if json:
             body = jsonlib.dumps(json)
