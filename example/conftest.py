@@ -2,9 +2,7 @@ import logging
 import logging.config
 
 import yaml
-
 from tavern.testutils.pytesthook import YamlItem
-
 
 logging_initialised = False
 

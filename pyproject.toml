@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "tavern-flask"
+version = "0.1.0"
+description = "Flask plugin for tavern"
+authors = ["Jérémy Tellaa <jeremy.tellaa@gmail.com>"]
+readme = "README.md"
+packages = [{include = "tavern_flask"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+tavern = "^1.24.1"
+PyYAML = "^6.0"
+Flask = "^2.2.2"
+python-box = "^5.4"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+isort = "^5.10.1"
+black = "^22.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
