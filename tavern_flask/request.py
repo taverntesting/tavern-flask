@@ -1,21 +1,12 @@
 import functools
-import logging
 
-from future.utils import raise_from
-import requests
 from box import Box
-
-from tavern.util import exceptions
-from tavern.util.dict_util import check_expected_keys
 from tavern._plugins.rest.request import get_request_args
-
 from tavern.request.base import BaseRequest
-
-logger = logging.getLogger(__name__)
+from tavern.util.dict_util import check_expected_keys
 
 
 class FlaskRequest(BaseRequest):
-
     def __init__(self, session, rspec, test_block_config):
         """Prepare request
 
@@ -29,9 +20,9 @@ class FlaskRequest(BaseRequest):
                 spec. Only valid keyword args to requests can be passed
         """
 
-        if 'meta' in rspec:
-            meta = rspec.pop('meta')
-            if meta and 'clear_session_cookies' in meta:
+        if "meta" in rspec:
+            meta = rspec.pop("meta")
+            if meta and "clear_session_cookies" in meta:
                 session.cookies.clear_session_cookies()
 
         expected = {
@@ -43,16 +34,10 @@ class FlaskRequest(BaseRequest):
             "auth",
             "json",
             "verify",
-            # "files",
-            # "cookies",
-            # "hooks",
         }
 
         check_expected_keys(expected, rspec)
-
         request_args = get_request_args(rspec, test_block_config)
-
-        logger.debug("Request args: %s", request_args)
 
         self._request_args = request_args
 
@@ -63,20 +48,7 @@ class FlaskRequest(BaseRequest):
         self._prepared = functools.partial(session.make_request, **request_args)
 
     def run(self):
-        """ Runs the prepared request and times it
-
-        Todo:
-            time it
-
-        Returns:
-            requests.Response: response object
-        """
-
-        try:
-            return self._prepared()
-        except requests.exceptions.RequestException as e:
-            logger.exception("Error running prepared request")
-            raise_from(exceptions.RestRequestException, e)
+        return self._prepared()
 
     @property
     def request_vars(self):
