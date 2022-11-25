@@ -1,24 +1,21 @@
-import logging
 import json as jsonlib
+import logging
 
 try:
-    from urllib.parse import urlparse, urlencode
+    from urllib.parse import urlencode, urlparse
 except ImportError:
     from urlparse import urlparse
     from urllib import urlencode
 
 from future.utils import raise_from
-
+from tavern.schemas.extensions import import_ext_function
 from tavern.util import exceptions
 from tavern.util.dict_util import check_expected_keys
-from tavern.schemas.extensions import import_ext_function
-
 
 logger = logging.getLogger(__name__)
 
 
 class FlaskTestSession:
-    
     def __init__(self, **kwargs):
         expected_blocks = {
             "app": {
@@ -45,7 +42,9 @@ class FlaskTestSession:
     def __exit__(self, *args):
         pass
 
-    def make_request(self, url, verify, method, headers=None, params=None, json=None, data=None):
+    def make_request(
+        self, url, verify, method, headers=None, params=None, json=None, data=None
+    ):
         # This isn't used - won't be using SSL
         if not verify:
             logger.warning("'verify' has no use when using flask test client")
