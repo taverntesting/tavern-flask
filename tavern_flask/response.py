@@ -1,8 +1,5 @@
-import logging
-
+from requests import Response
 from tavern._plugins.rest.response import RestResponse
-
-logger = logging.getLogger(__name__)
 
 
 class FlaskResponse(RestResponse):
@@ -14,11 +11,8 @@ class FlaskResponse(RestResponse):
         returns
         """
 
-        from requests import Response
-
         wrapped_response = Response()
         wrapped_response.headers = response.headers
         wrapped_response.status_code = response._status_code
         wrapped_response._content = response.get_data()
-
         return super(FlaskResponse, self).verify(wrapped_response)

@@ -1,15 +1,9 @@
 import functools
-import logging
 
-import requests
 from box import Box
-from future.utils import raise_from
 from tavern._plugins.rest.request import get_request_args
 from tavern.request.base import BaseRequest
-from tavern.util import exceptions
 from tavern.util.dict_util import check_expected_keys
-
-logger = logging.getLogger(__name__)
 
 
 class FlaskRequest(BaseRequest):
@@ -40,16 +34,10 @@ class FlaskRequest(BaseRequest):
             "auth",
             "json",
             "verify",
-            # "files",
-            # "cookies",
-            # "hooks",
         }
 
         check_expected_keys(expected, rspec)
-
         request_args = get_request_args(rspec, test_block_config)
-
-        logger.debug("Request args: %s", request_args)
 
         self._request_args = request_args
 
@@ -60,20 +48,7 @@ class FlaskRequest(BaseRequest):
         self._prepared = functools.partial(session.make_request, **request_args)
 
     def run(self):
-        """Runs the prepared request and times it
-
-        Todo:
-            time it
-
-        Returns:
-            requests.Response: response object
-        """
-
-        try:
-            return self._prepared()
-        except requests.exceptions.RequestException as e:
-            logger.exception("Error running prepared request")
-            raise_from(exceptions.RestRequestException, e)
+        return self._prepared()
 
     @property
     def request_vars(self):
