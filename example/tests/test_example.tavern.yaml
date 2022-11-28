@@ -1,0 +1,12 @@
+---
+test_name: Test example
+flask:
+  app:
+    location: "example.app"
+stages:
+  - name: Test example
+    request:
+      url: "http://localhost:5000/example"
+      method: GET
+    response:
+      status_code: 200
