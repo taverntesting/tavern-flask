@@ -20,3 +20,5 @@ jobs:
         run: poetry run flake8 .
       - name: isort
         run: poetry run isort --profile black --check .
+      - name: tests
+        run: poetry run pytest --tavern-http-backend=flask --cov tavern_flask example
