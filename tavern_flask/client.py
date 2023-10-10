@@ -3,7 +3,7 @@ import json as jsonlib
 import logging
 from urllib.parse import urlencode, urlparse
 
-from tavern.util.dict_util import check_expected_keys
+from tavern._core.dict_util import check_expected_keys
 
 logger = logging.getLogger(__name__)
 

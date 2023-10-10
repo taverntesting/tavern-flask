@@ -2,8 +2,8 @@ import functools
 
 from box import Box
 from tavern._plugins.rest.request import get_request_args
-from tavern.request.base import BaseRequest
-from tavern.util.dict_util import check_expected_keys
+from tavern.request import BaseRequest
+from tavern._core.dict_util import check_expected_keys
 
 
 class FlaskRequest(BaseRequest):
