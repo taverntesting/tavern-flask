@@ -47,7 +47,7 @@ def login():
         "exp": datetime.datetime.now() + datetime.timedelta(hours=1),
     }
 
-    token = jwt.encode(payload, SECRET, algorithm="HS256").decode("utf8")
+    token = jwt.encode(payload, SECRET, algorithm="HS256")
 
     return jsonify({"token": token})
 

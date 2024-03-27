@@ -22,17 +22,17 @@ stages:
         content-type: application/json
     response:
       status_code: 200
-      json:
-        $ext: &verify_token
-          function: tavern.testutils.helpers:validate_jwt
-          extra_kwargs:
-            jwt_key: "token"
-            key: CGQgaG7GYvTcpaQZqosLy4
-            options:
-              verify_signature: true
-              verify_aud: true
-              verify_exp: true
-            audience: testserver
+      verify_response_with: &verify_token
+        function: tavern.helpers:validate_jwt
+        extra_kwargs:
+          jwt_key: "token"
+          key: CGQgaG7GYvTcpaQZqosLy4
+          algorithms: [ "HS256" ]
+          options:
+            verify_signature: true
+            verify_aud: true
+            verify_exp: true
+          audience: testserver
       headers:
         content-type: application/json
       save:
