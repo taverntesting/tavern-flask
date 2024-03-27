@@ -1,27 +1,33 @@
 import functools
 import logging
 
-from future.utils import raise_from
 import requests
 from box import Box
 
-from tavern.util import exceptions
-from tavern.util.dict_util import check_expected_keys
+import typing
+
+from typing import Dict
+
+from tavern._core import exceptions
+from tavern._core.dict_util import check_expected_keys
+from tavern.request import BaseRequest
+
+if typing.TYPE_CHECKING:
+    from tavern._core.pytest.config import TestConfig
 from tavern._plugins.rest.request import get_request_args
 
-from tavern.request.base import BaseRequest
 
 logger = logging.getLogger(__name__)
 
 
 class FlaskRequest(BaseRequest):
 
-    def __init__(self, session, rspec, test_block_config):
+    def __init__(self, session, rspec: Dict, test_block_config: TestConfig):
         """Prepare request
 
         Args:
-            rspec (dict): test spec
-            test_block_config (dict): Any configuration for this the block of
+            rspec: test spec
+            test_block_config: Any configuration for this the block of
                 tests
 
         Raises:
@@ -76,7 +82,7 @@ class FlaskRequest(BaseRequest):
             return self._prepared()
         except requests.exceptions.RequestException as e:
             logger.exception("Error running prepared request")
-            raise_from(exceptions.RestRequestException, e)
+            raise exceptions.RestRequestException from e
 
     @property
     def request_vars(self):

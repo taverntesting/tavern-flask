@@ -1,14 +1,14 @@
 import logging
 
 from tavern._plugins.rest.response import RestResponse
-
+import flask
 logger = logging.getLogger(__name__)
 
 
 class FlaskResponse(RestResponse):
     """Flask response verifier"""
 
-    def verify(self, response):
+    def verify(self, response: flask.Response):
         """Wrap the Flask response into a Requests response and call the
         verifier for that. See docs for RestResponse for what this does and
         returns
