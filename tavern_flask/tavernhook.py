@@ -4,7 +4,6 @@ from os.path import abspath, dirname, join
 from typing import Dict
 
 import yaml
-from tavern._core import exceptions
 from tavern._core.dict_util import format_keys
 
 from .client import FlaskTestSession
@@ -22,14 +21,10 @@ request_type = FlaskRequest
 request_block_name = "request"
 
 
-def get_expected_from_request(stage: Dict, test_block_config: "TestConfig", session):
-    try:
-        r_expected = stage["response"]
-    except KeyError as e:
-        logger.error("Need a 'response' block if a 'request' is being sent")
-        raise exceptions.MissingSettingsError from e
-
-    f_expected = format_keys(r_expected, test_block_config["variables"])
+def get_expected_from_request(
+    response_block: Dict, test_block_config: "TestConfig", session
+):
+    f_expected = format_keys(response_block, test_block_config.variables)
     return f_expected
 
 

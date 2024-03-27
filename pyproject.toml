@@ -129,6 +129,8 @@ src = "tavern_flask/__init__.py"
 [[tool.tbump.file]]
 src = "pyproject.toml"
 
+[project.entry-points.tavern_http]
+flask = "tavern_flask.tavernhook"
 
 [tool.pytest.ini_options]
 testpaths = ["tavern_flask", "example"]
@@ -140,6 +142,7 @@ addopts = [
     "-p", "no:logging",
     "--tb=short",
     "--color=yes",
+    "--tavern-http-backend=flask"
 ]
 norecursedirs = [
     ".git",

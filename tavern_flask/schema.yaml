@@ -1,16 +1,15 @@
 ---
-name: MQTT schemas
-desc: pykwalify schemas for 'mqtt' plugin block, mqtt_publish, and mqtt_response
+$schema: "http://json-schema.org/draft-07/schema#"
 
-initialisation:
+title: Flask schema
+description: jsonschema for Flask connection
+
+properties:
   flask:
-    required: false
-    type: map
-    mapping:
+    type: object
+    properties:
       app:
-        required: false
-        type: map
-        mapping:
+        type: object
+        properties:
           location:
-            type: str
-            required: false
+            type: string
