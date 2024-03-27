@@ -1,24 +1,17 @@
-import logging
 import json as jsonlib
+import logging
+from typing import Dict, Optional
+from urllib.parse import urlencode, urlparse
 
-try:
-    from urllib.parse import urlparse, urlencode
-except ImportError:
-    from urlparse import urlparse
-    from urllib import urlencode
-
-from future.utils import raise_from
-
-from tavern.util import exceptions
-from tavern.util.dict_util import check_expected_keys
-from tavern.schemas.extensions import import_ext_function
-
+import flask
+from tavern._core import exceptions
+from tavern._core.dict_util import check_expected_keys
+from tavern._core.extfunctions import import_ext_function
 
 logger = logging.getLogger(__name__)
 
 
 class FlaskTestSession:
-    
     def __init__(self, **kwargs):
         expected_blocks = {
             "app": {
@@ -34,9 +27,9 @@ class FlaskTestSession:
         except KeyError as e:
             msg = "Need to specify app location (in the form my.module:application)"
             logger.error(msg)
-            raise_from(exceptions.MissingKeysError(msg), e)
+            raise exceptions.MissingKeysError(msg) from e
 
-        self._flask_app = import_ext_function(app_location)
+        self._flask_app: flask.Flask = import_ext_function(app_location)
         self._test_client = self._flask_app.test_client()
 
     def __enter__(self):
@@ -45,7 +38,17 @@ class FlaskTestSession:
     def __exit__(self, *args):
         pass
 
-    def make_request(self, url, verify, method, headers=None, params=None, json=None, data=None):
+    def make_request(
+        self,
+        *,
+        url: str,
+        method: str,
+        verify: bool = True,
+        headers: Optional[Dict] = None,
+        params: Optional[Dict] = None,
+        json: Optional[Dict] = None,
+        data=None,
+    ):
         # This isn't used - won't be using SSL
         if not verify:
             logger.warning("'verify' has no use when using flask test client")
