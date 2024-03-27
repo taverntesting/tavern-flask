@@ -1,0 +1,130 @@
+[build-system]
+requires = ["flit-core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Framework :: Pytest",
+    "Programming Language :: Python :: 3",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Testing",
+    "License :: OSI Approved :: MIT License",
+]
+
+keywords = ["testing", "pytest"]
+
+name = "tavern-flask"
+description = "Flask plugin for Tavern"
+version = "0.0.1"
+
+dependencies = [
+    "tavern>=2,<3",
+    "Flask",
+]
+
+requires-python = ">=3.8"
+
+[[project.authors]]
+name = "Michael Boulton"
+
+[project.license]
+file = "LICENSE"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Home = "https://taverntesting.github.io/"
+Documentation = "https://tavern.readthedocs.io/en/latest/"
+Source = "https://github.com/taverntesting/tavern-flask"
+
+[project.optional-dependencies]
+dev = [
+    "flit >=3.2,<4",
+    "wheel",
+    "pre-commit",
+    "tox>=4,<5",
+    "ruff>=0.3.4",
+    "uv",
+    # This has to be installed separately, otherwise you can't upload to pypi
+    # "tbump@https://github.com/michaelboulton/tbump/archive/714ba8957a3c84b625608ceca39811ebe56229dc.zip",
+]
+
+
+[tool.mypy]
+python_version = 3.8
+
+# See https://mypy.readthedocs.io/en/stable/running_mypy.html#mapping-file-paths-to-modules
+explicit_package_bases = true
+
+exclude = [
+    'bazel-*',
+    'venv/',
+]
+
+[tool.coverage.run]
+branch = false
+omit = [
+    "tests/*",
+    ".eggs/*",
+    "env/*",
+    "build/*",
+    "dist/*",
+]
+source = ["tavern_flask"]
+
+[tool.ruff]
+target-version = "py38"
+extend-exclude = [
+    "tests/unit/tavern_grpc/test_services_pb2.py",
+    "tests/unit/tavern_grpc/test_services_pb2.pyi",
+    "tests/unit/tavern_grpc/test_services_pb2_grpc.py",
+]
+
+[tool.ruff.lint]
+ignore = [
+    "E501", # line length
+    "RUF005", # union types only valid from 3.10+
+    "B905", # zip(..., strict=True) only valid from 3.10+
+    "PLR0912", "PLR0915", "PLR0911", "PLR0913", # too many branches/variables/return values - sometimes this is just unavoidable
+    "PLR2004", # 'magic numbers'
+    "PLW2901", # Loop variable overridden
+]
+select = ["E", "F", "B", "W", "I", "S", "C4", "ICN", "T20", "PLE", "RUF", "SIM105", "PL"]
+# Look at: UP
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "RUF"]
+"tests/unit/tavern_grpc/test_grpc.py" = ["E402"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tavern_flask"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.tbump.version]
+current = "0.0.1"
+
+regex = '''
+  (?P<major>\d+)
+  \.
+  (?P<minor>\d+)
+  \.
+  (?P<patch>\d+)
+  ((?P<release>[a-zA-Z]+)(?P<build>\d+))?
+  '''
+
+[tool.tbump.git]
+message_template = "Bump to {new_version}"
+tag_template = "{new_version}"
+
+[[tool.tbump.file]]
+src = "tavern_flask/__init__.py"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
