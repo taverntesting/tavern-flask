@@ -40,9 +40,10 @@ class FlaskTestSession:
 
     def make_request(
         self,
+        *,
         url: str,
-        verify: bool,
         method: str,
+        verify: bool = True,
         headers: Optional[Dict] = None,
         params: Optional[Dict] = None,
         json: Optional[Dict] = None,
