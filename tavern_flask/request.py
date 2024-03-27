@@ -1,13 +1,10 @@
 import functools
 import logging
+import typing
+from typing import Dict
 
 import requests
 from box import Box
-
-import typing
-
-from typing import Dict
-
 from tavern._core import exceptions
 from tavern._core.dict_util import check_expected_keys
 from tavern.request import BaseRequest
@@ -16,12 +13,10 @@ if typing.TYPE_CHECKING:
     from tavern._core.pytest.config import TestConfig
 from tavern._plugins.rest.request import get_request_args
 
-
 logger = logging.getLogger(__name__)
 
 
 class FlaskRequest(BaseRequest):
-
     def __init__(self, session, rspec: Dict, test_block_config: TestConfig):
         """Prepare request
 
@@ -35,9 +30,9 @@ class FlaskRequest(BaseRequest):
                 spec. Only valid keyword args to requests can be passed
         """
 
-        if 'meta' in rspec:
-            meta = rspec.pop('meta')
-            if meta and 'clear_session_cookies' in meta:
+        if "meta" in rspec:
+            meta = rspec.pop("meta")
+            if meta and "clear_session_cookies" in meta:
                 session.cookies.clear_session_cookies()
 
         expected = {
@@ -69,7 +64,7 @@ class FlaskRequest(BaseRequest):
         self._prepared = functools.partial(session.make_request, **request_args)
 
     def run(self):
-        """ Runs the prepared request and times it
+        """Runs the prepared request and times it
 
         Todo:
             time it

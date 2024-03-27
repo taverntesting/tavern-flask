@@ -1,17 +1,15 @@
 import logging
-from os.path import join, abspath, dirname
+import typing
+from os.path import abspath, dirname, join
+from typing import Dict
 
 import yaml
 from tavern._core import exceptions
 from tavern._core.dict_util import format_keys
 
+from .client import FlaskTestSession
 from .request import FlaskRequest
 from .response import FlaskResponse
-from .client import FlaskTestSession
-
-import typing
-
-from typing import Dict
 
 if typing.TYPE_CHECKING:
     from tavern._core.pytest.config import TestConfig

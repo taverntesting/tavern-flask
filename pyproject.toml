@@ -98,8 +98,7 @@ select = ["E", "F", "B", "W", "I", "S", "C4", "ICN", "T20", "PLE", "RUF", "SIM10
 # Look at: UP
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S", "RUF"]
-"tests/unit/tavern_grpc/test_grpc.py" = ["E402"]
+"example/server.py" = ["S"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["tavern_flask"]

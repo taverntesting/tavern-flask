@@ -1,9 +1,10 @@
-import sqlite3
+import contextlib
 import datetime
 import functools
-from flask import Flask, jsonify, request, g
-import jwt
+import sqlite3
 
+import jwt
+from flask import Flask, g, jsonify, request
 
 app = Flask(__name__)
 
@@ -14,22 +15,21 @@ SERVERNAME = "testserver"
 
 
 def get_db():
-    db = getattr(g, '_database', None)
+    db = getattr(g, "_database", None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
 
-        with db:
-            try:
-                db.execute("CREATE TABLE numbers_table (name TEXT NOT NULL, number INTEGER NOT NULL)")
-            except:
-                pass
+        with contextlib.suppress(Exception):
+            db.execute(
+                "CREATE TABLE numbers_table (name TEXT NOT NULL, number INTEGER NOT NULL)"
+            )
 
     return db
 
 
 @app.teardown_appcontext
 def close_connection(exception):
-    db = getattr(g, '_database', None)
+    db = getattr(g, "_database", None)
     if db is not None:
         db.close()
 
@@ -44,7 +44,7 @@ def login():
     payload = {
         "sub": "test-user",
         "aud": SERVERNAME,
-        "exp": datetime.datetime.now() + datetime.timedelta(hours=1)
+        "exp": datetime.datetime.now() + datetime.timedelta(hours=1),
     }
 
     token = jwt.encode(payload, SECRET, algorithm="HS256").decode("utf8")
@@ -53,7 +53,7 @@ def login():
 
 
 def requires_jwt(endpoint):
-    """ Makes sure a jwt is in the request before accepting it """
+    """Makes sure a jwt is in the request before accepting it"""
 
     @functools.wraps(endpoint)
     def check_auth_call(*args, **kwargs):
@@ -70,7 +70,7 @@ def requires_jwt(endpoint):
 
         try:
             jwt.decode(token, SECRET, audience=SERVERNAME, algorithms=["HS256"])
-        except:
+        except Exception:
             return jsonify({"error": "Invalid token"}), 401
 
         return endpoint(*args, **kwargs)

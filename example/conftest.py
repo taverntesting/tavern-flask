@@ -2,9 +2,7 @@ import logging
 import logging.config
 
 import yaml
-
-from tavern.testutils.pytesthook import YamlItem
-
+from tavern._core.pytest.item import YamlItem
 
 logging_initialised = False
 
@@ -39,12 +37,12 @@ loggers:
     tavern_flask: *log
 """
 
-    as_dict = yaml.load(log_cfg)
+    as_dict = yaml.load(log_cfg, Loader=yaml.SafeLoader)
     logging.config.dictConfig(as_dict)
 
     logging.info("Logging set up")
 
-    global logging_initialised
+    global logging_initialised  # noqa
     logging_initialised = True
 
 
