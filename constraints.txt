@@ -21,6 +21,7 @@ click==8.1.7
     # via flask
 colorama==0.4.6
     # via tox
+colorlog==6.8.2
 distlib==0.3.8
     # via virtualenv
 docopt==0.6.2

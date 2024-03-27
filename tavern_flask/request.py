@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class FlaskRequest(BaseRequest):
-    def __init__(self, session, rspec: Dict, test_block_config: TestConfig):
+    def __init__(self, session, rspec: Dict, test_block_config: "TestConfig"):
         """Prepare request
 
         Args:

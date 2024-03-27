@@ -22,7 +22,7 @@ request_type = FlaskRequest
 request_block_name = "request"
 
 
-def get_expected_from_request(stage: Dict, test_block_config: TestConfig, session):
+def get_expected_from_request(stage: Dict, test_block_config: "TestConfig", session):
     try:
         r_expected = stage["response"]
     except KeyError as e:
