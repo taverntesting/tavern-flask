@@ -117,7 +117,7 @@ six==1.16.0
     # via python-dateutil
 stevedore==4.1.1
     # via tavern
-tavern==2.10.0
+tavern==2.10.1
 tomli==2.0.1
     # via
     #   pyproject-api

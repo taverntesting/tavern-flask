@@ -21,7 +21,7 @@ description = "Flask plugin for Tavern"
 version = "0.0.1"
 
 dependencies = [
-    "tavern>=2,<3",
+    "tavern>=2.10.1,<3",
     "Flask",
 ]
 
